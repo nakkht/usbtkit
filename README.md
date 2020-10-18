@@ -1,6 +1,9 @@
 # UsbtKit
 
-Swift library to allow data transmission over usb
+Swift library to allow data transmission over USB
+
+![build](https://github.com/nakkht/usbtkit/workflows/Build/badge.svg)
+![unit test](https://github.com/nakkht/usbtkit/workflows/Unit%20test/badge.svg)
 
 ## Author
 * [Paulius Gudonis](https://pgu.dev)
