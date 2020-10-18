@@ -6,7 +6,7 @@ Swift library to allow data transmission over usb
 * [Paulius Gudonis](https://pgu.dev)
 
 ## License
-This repository is under the **Apache v2.0** license. [Find it here](https://github.com/nakkht/quick-constraint/blob/master/LICENSE).
+This repository is under the **Apache v2.0** license. [Find it here](https://github.com/nakkht/usbtkit/blob/main/LICENSE).
 
     Copyright 2020 Paulius Gudonis
 
