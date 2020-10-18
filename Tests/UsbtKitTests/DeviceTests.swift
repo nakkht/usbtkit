@@ -14,7 +14,18 @@
 // limitations under the License.
 //  
 
-struct Device {
-    let id: Int
-    let port: UInt16
+import XCTest
+@testable import UsbtKit
+
+class DeviceTests: XCTestCase {
+    
+    func testPropertyBounds() {
+        let minDevice = Device(id: .min, port: .min)
+        XCTAssertEqual(.min, minDevice.id)
+        XCTAssertEqual(.min, minDevice.port)
+        
+        let maxDevice = Device(id: .max, port: .max)
+        XCTAssertEqual(.max, maxDevice.id)
+        XCTAssertEqual(.max, maxDevice.port)
+    }
 }
