@@ -25,6 +25,6 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .build
-        key: ${{ runner.os }}
+        key: ${{ runner.os }}-build
     - name: Build
       run: swift build -v
