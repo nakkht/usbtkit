@@ -25,7 +25,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .build
-        key: ${{ runner.os }}
+        key: ${{ runner.os }}-build
     - name: Test
       run: swift test --enable-code-coverage -v 2>&1 | xcpretty
     - name: Export code coverage
