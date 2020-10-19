@@ -1,4 +1,4 @@
-name: Unit test
+  name: Unit test
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
         path: .build
         key: ${{ runner.os }}
         restore-keys: |
-          ${{ runner.os }}-spm-
+          ${{ runner.os }}
     - name: Test
       run: swift test --enable-code-coverage -v 2>&1 | xcpretty
     - name: Export code coverage
