@@ -25,6 +25,6 @@ jobs:
         path: .build
         key: ${{ runner.os }}
         restore-keys: |
-          ${{ runner.os }}-spm-
+          ${{ runner.os }}
     - name: Build
       run: swift build -v
