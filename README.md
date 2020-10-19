@@ -4,6 +4,7 @@ Swift library to allow data transmission over USB
 
 ![build](https://github.com/nakkht/usbtkit/workflows/Build/badge.svg)
 ![unit test](https://github.com/nakkht/usbtkit/workflows/Unit%20test/badge.svg)
+[![codecov](https://codecov.io/gh/nakkht/usbtkit/branch/develop/graph/badge.svg)](https://codecov.io/gh/nakkht/usbtkit)
 
 ## Author
 * [Paulius Gudonis](https://pgu.dev)

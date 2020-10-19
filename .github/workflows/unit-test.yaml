@@ -23,11 +23,11 @@ jobs:
     - name: Test
       run: swift test --enable-code-coverage -v
     - name: Export code coverage
-      run: xcrun llvm-cov export -format="text" .build/x86_64-apple-macosx/debug/UsbtKitPackageTests.xctest/Contents/MacOS/UsbtKitPackageTests -instr-profile=.build/x86_64-apple-macosx/debug/codecov/default.profdata > .build/usbtkit-coverage.json
+      run: xcrun llvm-cov export -format="lcov" .build/x86_64-apple-macosx/debug/UsbtKitPackageTests.xctest/Contents/MacOS/UsbtKitPackageTests -instr-profile=.build/x86_64-apple-macosx/debug/codecov/default.profdata > .build/usbtkit-coverage.lcov
     - name: Upload code coverage
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        file: .build/usbtkit-coverage.json
+        file: .build/usbtkit-coverage.lcov
         fail_ci_if_error: true
         verbose: true
