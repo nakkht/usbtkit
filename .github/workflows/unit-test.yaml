@@ -19,13 +19,13 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/cache@v2
+    - name: Chekcout
+      uses: actions/checkout@v2
+    - name: Cache build
+      uses: actions/cache@v2
       with:
         path: .build
         key: ${{ runner.os }}
-        restore-keys: |
-          ${{ runner.os }}
     - name: Test
       run: swift test --enable-code-coverage -v 2>&1 | xcpretty
     - name: Export code coverage
