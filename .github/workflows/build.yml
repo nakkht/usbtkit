@@ -19,12 +19,12 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/cache@v2
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Cache build
+      uses: actions/cache@v2
       with:
         path: .build
         key: ${{ runner.os }}
-        restore-keys: |
-          ${{ runner.os }}
     - name: Build
       run: swift build -v
