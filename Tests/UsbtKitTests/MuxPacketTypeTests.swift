@@ -20,11 +20,11 @@ import XCTest
 class MuxPacketTypeTests: XCTestCase {
     
     func testEnumValues() {
-        XCTAssertEqual(1, UsbMuxPacketType.result.rawValue)
-        XCTAssertEqual(2, UsbMuxPacketType.connect.rawValue)
-        XCTAssertEqual(3, UsbMuxPacketType.listen.rawValue)
-        XCTAssertEqual(4, UsbMuxPacketType.add.rawValue)
-        XCTAssertEqual(5, UsbMuxPacketType.remove.rawValue)
-        XCTAssertEqual(8, UsbMuxPacketType.plistPayload.rawValue)
+        XCTAssertEqual(1, MuxPacketType.result.rawValue)
+        XCTAssertEqual(2, MuxPacketType.connect.rawValue)
+        XCTAssertEqual(3, MuxPacketType.listen.rawValue)
+        XCTAssertEqual(4, MuxPacketType.add.rawValue)
+        XCTAssertEqual(5, MuxPacketType.remove.rawValue)
+        XCTAssertEqual(8, MuxPacketType.plistPayload.rawValue)
     }
 }
