@@ -14,10 +14,17 @@
 // limitations under the License.
 //  
 
-enum USBMuxReply: Int {
-  case ok = 0
-  case badCommand = 1
-  case badDevice = 2
-  case connectionRefused = 3
-  case badVersion = 6
+import XCTest
+@testable import UsbtKit
+
+class MuxPacketTypeTests: XCTestCase {
+    
+    func testEnumValues() {
+        XCTAssertEqual(1, UsbMuxPacketType.result.rawValue)
+        XCTAssertEqual(2, UsbMuxPacketType.connect.rawValue)
+        XCTAssertEqual(3, UsbMuxPacketType.listen.rawValue)
+        XCTAssertEqual(4, UsbMuxPacketType.add.rawValue)
+        XCTAssertEqual(5, UsbMuxPacketType.remove.rawValue)
+        XCTAssertEqual(8, UsbMuxPacketType.plistPayload.rawValue)
+    }
 }

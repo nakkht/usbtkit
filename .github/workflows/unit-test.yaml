@@ -19,7 +19,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - name: Chekcout
+    - name: Checkout
       uses: actions/checkout@v2
     - name: Cache build
       uses: actions/cache@v2
