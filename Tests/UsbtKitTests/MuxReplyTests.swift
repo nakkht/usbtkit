@@ -17,13 +17,13 @@
 import XCTest
 @testable import UsbtKit
 
-class UsbMuxReplyTests: XCTestCase {
+class MuxReplyTests: XCTestCase {
     
     func testEnumValues() {
-        XCTAssertEqual(0, USBMuxReply.ok.rawValue)
-        XCTAssertEqual(1, USBMuxReply.badCommand.rawValue)
-        XCTAssertEqual(2, USBMuxReply.badDevice.rawValue)
-        XCTAssertEqual(3, USBMuxReply.connectionRefused.rawValue)
-        XCTAssertEqual(6, USBMuxReply.badVersion.rawValue)
+        XCTAssertEqual(0, MuxReply.ok.rawValue)
+        XCTAssertEqual(1, MuxReply.badCommand.rawValue)
+        XCTAssertEqual(2, MuxReply.badDevice.rawValue)
+        XCTAssertEqual(3, MuxReply.connectionRefused.rawValue)
+        XCTAssertEqual(6, MuxReply.badVersion.rawValue)
     }
 }
