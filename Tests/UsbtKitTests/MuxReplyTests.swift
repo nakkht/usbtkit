@@ -19,7 +19,7 @@ import XCTest
 
 class MuxReplyTests: XCTestCase {
     
-    func testEnumValues() {
+    func testValues() {
         XCTAssertEqual(0, MuxReply.ok.rawValue)
         XCTAssertEqual(1, MuxReply.badCommand.rawValue)
         XCTAssertEqual(2, MuxReply.badDevice.rawValue)
