@@ -17,14 +17,15 @@
 import XCTest
 @testable import UsbtKit
 
-class MuxPacketTypeTests: XCTestCase {
+class ErrorTests: XCTestCase {
     
     func testValues() {
-        XCTAssertEqual(1, MuxPacketType.result.rawValue)
-        XCTAssertEqual(2, MuxPacketType.connect.rawValue)
-        XCTAssertEqual(3, MuxPacketType.listen.rawValue)
-        XCTAssertEqual(4, MuxPacketType.add.rawValue)
-        XCTAssertEqual(5, MuxPacketType.remove.rawValue)
-        XCTAssertEqual(8, MuxPacketType.plistPayload.rawValue)
+        XCTAssertEqual(0, UsbtKit.Error.badDevice.rawValue)
+        XCTAssertEqual(1, UsbtKit.Error.connectionRefused.rawValue)
+    }
+    
+    func testDescriptionValues() {
+        XCTAssertEqual("Bad device", UsbtKit.Error.badDevice.description)
+        XCTAssertEqual("Connection refused", UsbtKit.Error.connectionRefused.description)
     }
 }
