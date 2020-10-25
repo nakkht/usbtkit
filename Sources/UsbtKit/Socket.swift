@@ -20,8 +20,14 @@ final class Socket {
     
     static let muxdPath = "/var/run/usbmuxd"
     private var socketHandle: SocketNativeHandle
+    private var inputStream: InputStream?
+    private var outputStream: OutputStream?
+    private let inputDelegate: StreamDelegate
+    private let outputDelegate: StreamDelegate
     
-    init() {
+    init(_ inputDelegate: StreamDelegate, _ outputDelegate: StreamDelegate) {
+        self.inputDelegate = inputDelegate
+        self.outputDelegate = outputDelegate
         self.socketHandle = socket(AF_UNIX, SOCK_STREAM, 0)
         self.configure(socketHandle)
     }
@@ -35,19 +41,49 @@ final class Socket {
     
     func connect() {
         var addr = self.address
-        _ = withUnsafeMutablePointer(to: &addr) {
+        let result = withUnsafeMutablePointer(to: &addr) {
             $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
                 Darwin.connect(socketHandle, $0, socklen_t(MemoryLayout.size(ofValue: address)))
             }
         }
+        guard result != -1 else { return }
+        configureStreams()
     }
     
-    func write() {
-        
+    func configureStreams() {
+        var inputStream: Unmanaged<CFReadStream>?
+        var outputStream: Unmanaged<CFWriteStream>?
+        CFStreamCreatePairWithSocket(kCFAllocatorDefault,
+                                     socketHandle,
+                                     &inputStream,
+                                     &outputStream)
+        CFReadStreamSetProperty(inputStream!.takeUnretainedValue(),
+                                CFStreamPropertyKey(rawValue: kCFStreamPropertyShouldCloseNativeSocket),
+                                kCFBooleanTrue)
+        CFWriteStreamSetProperty(outputStream!.takeUnretainedValue(),
+                                 CFStreamPropertyKey(rawValue: kCFStreamPropertyShouldCloseNativeSocket),
+                                 kCFBooleanTrue
+        )
+        self.inputStream = inputStream?.takeRetainedValue()
+        self.outputStream = outputStream?.takeRetainedValue()
+        self.inputStream?.schedule(in: RunLoop.current, forMode: .default)
+        self.outputStream?.schedule(in: RunLoop.current, forMode: .default)
+        self.inputStream?.delegate = self.inputDelegate
+        self.outputStream?.delegate = self.outputDelegate
+        self.inputStream?.open()
+        self.outputStream?.open()
+        RunLoop.current.run()
+    }
+    
+    func write(data: Data) {
+        guard let dataBufferPointer = data.withUnsafeBytes({$0.bindMemory(to: UInt8.self) }).baseAddress else { return }
+        self.outputStream?.write(dataBufferPointer, maxLength: data.count)
     }
     
     func disconnect() {
         self.socketHandle = -1
+        self.inputStream?.close()
+        self.outputStream?.close()
     }
     
     var address: sockaddr_un {
