@@ -20,12 +20,10 @@ import XCTest
 class ErrorTests: XCTestCase {
     
     func testValues() {
-        XCTAssertEqual(0, UsbtKit.Error.badDevice.rawValue)
         XCTAssertEqual(1, UsbtKit.Error.connectionRefused.rawValue)
     }
     
     func testDescriptionValues() {
-        XCTAssertEqual("Bad device", UsbtKit.Error.badDevice.description)
         XCTAssertEqual("Connection refused", UsbtKit.Error.connectionRefused.description)
     }
 }

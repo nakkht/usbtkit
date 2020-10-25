@@ -14,7 +14,19 @@
 // limitations under the License.
 //  
 
-struct Device {
-    let id: Int
-    let port: UInt16
+import Foundation
+import Combine
+
+class Usb {
+    
+    static let shared = Usb()
+    
+    private let io = DispatchQueue(label: "usbtkit.usb")
+    private let socket: Socket
+    
+    private init() {
+        self.socket = Socket()
+    }
+    
+    func connect()  { }
 }
