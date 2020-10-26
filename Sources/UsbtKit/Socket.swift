@@ -19,13 +19,14 @@ import Foundation
 final class Socket {
     
     static let muxdPath = "/var/run/usbmuxd"
+    
     private var socketHandle: SocketNativeHandle
     private var inputStream: InputStream?
     private var outputStream: OutputStream?
-    private let inputDelegate: StreamDelegate
-    private let outputDelegate: StreamDelegate
+    private let inputDelegate: StreamDelegate?
+    private let outputDelegate: StreamDelegate?
     
-    init(_ inputDelegate: StreamDelegate, _ outputDelegate: StreamDelegate) {
+    init(_ inputDelegate: StreamDelegate?, _ outputDelegate: StreamDelegate?) {
         self.inputDelegate = inputDelegate
         self.outputDelegate = outputDelegate
         self.socketHandle = socket(AF_UNIX, SOCK_STREAM, 0)
@@ -62,12 +63,11 @@ final class Socket {
                                 kCFBooleanTrue)
         CFWriteStreamSetProperty(outputStream!.takeUnretainedValue(),
                                  CFStreamPropertyKey(rawValue: kCFStreamPropertyShouldCloseNativeSocket),
-                                 kCFBooleanTrue
-        )
+                                 kCFBooleanTrue)
         self.inputStream = inputStream?.takeRetainedValue()
         self.outputStream = outputStream?.takeRetainedValue()
-        self.inputStream?.schedule(in: RunLoop.current, forMode: .default)
-        self.outputStream?.schedule(in: RunLoop.current, forMode: .default)
+        self.inputStream?.schedule(in: .current, forMode: .default)
+        self.outputStream?.schedule(in: .current, forMode: .default)
         self.inputStream?.delegate = self.inputDelegate
         self.outputStream?.delegate = self.outputDelegate
         self.inputStream?.open()

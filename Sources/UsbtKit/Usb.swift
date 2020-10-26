@@ -19,13 +19,40 @@ import Combine
 
 class Usb {
     
+    static let threadName = "usbtkit.usb"
     static let shared = Usb()
     
     private let io = DispatchQueue(label: "usbtkit.usb")
-    private var socket: Socket!
+    private var socket: Socket?
+    private var thread: Thread?
+    private var inputDelegate: StreamDelegate?
+    private var outputDelegate: StreamDelegate?
     
     private init() {
+        self.inputDelegate = StreamDelegate(self.input)
+        self.outputDelegate = StreamDelegate(self.output)
+        self.socket = Socket(inputDelegate, outputDelegate)
     }
     
     func connect()  { }
+    
+    func startThread() {
+        self.thread = Thread {
+            while(!(self.thread?.isCancelled ?? true)) {
+                RunLoop.current.run(mode: .default,
+                                    before: Date.distantFuture)
+            }
+            Thread.exit()
+        }
+        self.thread?.name = Usb.threadName
+        self.thread?.start()
+    }
+    
+    func input(_ stream: Stream, event: Stream.Event) {
+        
+    }
+    
+    func output(_ stream: Stream, event: Stream.Event) {
+        
+    }
 }
