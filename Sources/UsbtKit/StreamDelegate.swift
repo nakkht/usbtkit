@@ -16,13 +16,15 @@
 
 import Foundation
 
-enum Error: Int, Swift.Error, CustomStringConvertible {
+class StreamDelegate: NSObject, Foundation.StreamDelegate {
     
-    case connectionRefused = 1
+    private let eventBlock: (Stream, Stream.Event) -> Void
     
-    var description: String {
-        switch self {
-        case .connectionRefused: return "Connection refused"
-        }
+    init(_ eventBlock: @escaping (Stream, Stream.Event) -> Void) {
+        self.eventBlock = eventBlock
+    }
+    
+    func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
+        self.eventBlock(aStream, eventCode)
     }
 }
