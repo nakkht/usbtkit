@@ -31,28 +31,19 @@ class Usb {
     private init() {
         self.inputDelegate = StreamDelegate(self.input)
         self.outputDelegate = StreamDelegate(self.output)
-        self.socket = Socket(inputDelegate, outputDelegate)
+        self.thread = Thread(target: self, selector: #selector(configThread), object: nil)
+        self.thread?.start()
     }
     
     func connect()  { }
     
-    func startThread() {
-        self.thread = Thread {
-            while(!(self.thread?.isCancelled ?? true)) {
-                RunLoop.current.run(mode: .default,
-                                    before: Date.distantFuture)
-            }
-            Thread.exit()
-        }
+    @objc func configThread() {
         self.thread?.name = Usb.threadName
-        self.thread?.start()
+        RunLoop.current.run(mode: .default, before: Date.distantFuture)
+        self.socket = Socket(inputDelegate, outputDelegate)
     }
     
-    func input(_ stream: Stream, event: Stream.Event) {
-        
-    }
+    func input(_ stream: Stream, event: Stream.Event) { }
     
-    func output(_ stream: Stream, event: Stream.Event) {
-        
-    }
+    func output(_ stream: Stream, event: Stream.Event) { }
 }
