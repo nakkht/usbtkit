@@ -19,6 +19,7 @@ import Combine
 
 class Usb {
     
+    static let defaultPort = 666
     static let threadName = "usbtkit.usb"
     static let shared = Usb()
     
@@ -35,12 +36,14 @@ class Usb {
         self.thread?.start()
     }
     
-    func connect()  { }
-    
     @objc func configThread() {
         self.thread?.name = Usb.threadName
         RunLoop.current.run(mode: .default, before: Date.distantFuture)
         self.socket = Socket(inputDelegate, outputDelegate)
+    }
+    
+    func connect() {
+        
     }
     
     func input(_ stream: Stream, event: Stream.Event) { }
