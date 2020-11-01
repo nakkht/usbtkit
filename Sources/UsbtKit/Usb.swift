@@ -19,11 +19,11 @@ import Combine
 
 class Usb {
     
+    static let io = DispatchQueue(label: "usbtkit.usb")
     static let defaultPort = 666
-    static let threadName = "usbtkit.usb"
+    static let threadName = "usbtkit.usb.stream"
     static let shared = Usb()
     
-    private let io = DispatchQueue(label: "usbtkit.usb")
     private var socket: Socket?
     private var thread: Thread?
     private var inputDelegate: StreamDelegate?
@@ -43,10 +43,14 @@ class Usb {
     }
     
     func connect() {
+        self.socket?.connect()
+    }
+    
+    func input(_ stream: Stream, event: Stream.Event) {
         
     }
     
-    func input(_ stream: Stream, event: Stream.Event) { }
-    
-    func output(_ stream: Stream, event: Stream.Event) { }
+    func output(_ stream: Stream, event: Stream.Event) {
+        
+    }
 }
