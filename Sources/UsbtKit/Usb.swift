@@ -19,6 +19,9 @@ import Combine
 
 class Usb {
     
+    public lazy var input = PassthroughSubject<(Stream, Stream.Event), Never>()
+    public lazy var output = PassthroughSubject<(Stream, Stream.Event), Never>()
+    
     static let io = DispatchQueue(label: "usbtkit.usb")
     static let defaultPort = 666
     static let threadName = "usbtkit.usb.stream"
@@ -42,15 +45,15 @@ class Usb {
         self.socket = Socket(inputDelegate, outputDelegate)
     }
     
-    func connect() {
+    public func connect() {
         self.socket?.connect()
     }
     
     func input(_ stream: Stream, event: Stream.Event) {
-        
+        self.input.send((stream, event))
     }
     
     func output(_ stream: Stream, event: Stream.Event) {
-        
+        self.output.send((stream, event))
     }
 }
