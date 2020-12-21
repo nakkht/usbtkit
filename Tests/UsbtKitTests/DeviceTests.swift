@@ -14,10 +14,16 @@
 // limitations under the License.
 //  
 
-import Foundation
+import XCTest
+@testable import UsbtKit
 
-public struct Device {
+class DeviceTests: XCTestCase {
     
-    let port: Int = Usb.defaultPort
-    let id: Int
+    func testDefaultValues() {
+        let id = Int.max
+        let device = Device(id: id)
+        
+        XCTAssertEqual(Usb.defaultPort, device.port)
+        XCTAssertEqual(id, device.id)
+    }
 }
