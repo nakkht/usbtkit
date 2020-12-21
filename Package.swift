@@ -3,18 +3,18 @@
 import PackageDescription
 
 let package = Package(
-    name: "UsbtKit",
+    name: "USBTKit",
     platforms: [
         .macOS(.v10_15),
         .iOS(.v13)
     ],
     products: [
-        .library(name: "UsbtKit",
-                 targets: ["UsbtKit"]),
+        .library(name: "USBTKit",
+                 targets: ["USBTKit"]),
     ],
     targets: [
-        .target(name: "UsbtKit"),
-        .testTarget(name: "UsbtKitTests",
-                    dependencies: ["UsbtKit"]),
+        .target(name: "USBTKit"),
+        .testTarget(name: "USBTKitTests",
+                    dependencies: ["USBTKit"]),
     ]
 )

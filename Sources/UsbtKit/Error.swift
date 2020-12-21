@@ -14,8 +14,6 @@
 // limitations under the License.
 //  
 
-import Foundation
-
 enum Error: Int, Swift.Error, CustomStringConvertible {
     
     case connectionRefused = 1
