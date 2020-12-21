@@ -15,7 +15,7 @@
 //  
 
 import XCTest
-@testable import UsbtKit
+@testable import USBTKit
 
 class StreamDelegateTests: XCTestCase {
     

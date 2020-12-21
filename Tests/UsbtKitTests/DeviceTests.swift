@@ -15,15 +15,24 @@
 //  
 
 import XCTest
-@testable import UsbtKit
+@testable import USBTKit
 
 class DeviceTests: XCTestCase {
     
     func testDefaultValues() {
-        let id = Int.max
+        let id = UInt.max
         let device = Device(id: id)
         
-        XCTAssertEqual(Usb.defaultPort, device.port)
+        XCTAssertEqual(UsbHub.defaultPort, device.port)
+        XCTAssertEqual(id, device.id)
+    }
+    
+    func testPortValues() {
+        let port = UInt16.min
+        let id = UInt.min
+        let device = Device(id: id, port: port)
+        
+        XCTAssertEqual(port, device.port)
         XCTAssertEqual(id, device.id)
     }
 }

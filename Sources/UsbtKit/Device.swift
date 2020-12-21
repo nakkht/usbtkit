@@ -14,10 +14,8 @@
 // limitations under the License.
 //  
 
-import Foundation
-
 public struct Device {
     
-    let port: Int = Usb.defaultPort
-    let id: Int
+    let id: UInt
+    var port: UInt16 = UsbHub.defaultPort
 }

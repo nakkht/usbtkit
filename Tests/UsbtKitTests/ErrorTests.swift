@@ -15,15 +15,15 @@
 //  
 
 import XCTest
-@testable import UsbtKit
+@testable import USBTKit
 
 class ErrorTests: XCTestCase {
     
     func testValues() {
-        XCTAssertEqual(1, UsbtKit.Error.connectionRefused.rawValue)
+        XCTAssertEqual(1, USBTKit.Error.connectionRefused.rawValue)
     }
     
     func testDescriptionValues() {
-        XCTAssertEqual("Connection refused", UsbtKit.Error.connectionRefused.description)
+        XCTAssertEqual("Connection refused", USBTKit.Error.connectionRefused.description)
     }
 }
