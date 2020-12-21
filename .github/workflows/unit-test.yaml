@@ -23,7 +23,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: .build
-        key: ${{ runner.os }}-unit-test-xcode-12
+        key: unit-test-xcode-12
     - name: Test
       run: swift test --enable-code-coverage -v 2>&1 | xcpretty
     - name: Export code coverage
@@ -49,7 +49,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .build
-          key: ${{ runner.os }}-unit-test-xcode-12
+          key: unit-test-xcode-11
       - name: Test
         run: swift test --enable-code-coverage -v 2>&1 | xcpretty
       - name: Export code coverage
