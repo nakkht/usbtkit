@@ -18,7 +18,7 @@ import Foundation
 
 final class Socket {
     
-    static let muxdPath = "/var/run/usbmuxd"
+    static let muxdPath = "/private/var/run/usbmuxd"
     
     private var socketHandle: SocketNativeHandle
     private var inputStream: InputStream?
