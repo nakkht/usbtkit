@@ -22,8 +22,6 @@ final class UsbHub {
     public lazy var input = PassthroughSubject<(Stream, Stream.Event), Never>()
     public lazy var output = PassthroughSubject<(Stream, Stream.Event), Never>()
     
-    static let io = DispatchQueue(label: "usbtkit.usb")
-    static let defaultPort: UInt16 = 666
     static let threadName = "usbtkit.usb.stream"
     static let shared = UsbHub()
     
