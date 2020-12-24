@@ -17,13 +17,13 @@
 import Foundation
 import Combine
 
-final class UsbHub {
+final class USBHub {
     
     public lazy var input = PassthroughSubject<(Stream, Stream.Event), Never>()
     public lazy var output = PassthroughSubject<(Stream, Stream.Event), Never>()
     
     static let threadName = "usbtkit.usb.stream"
-    static let shared = UsbHub()
+    static let shared = USBHub()
     
     private var socket: Socket?
     private var thread: Thread?
@@ -38,7 +38,7 @@ final class UsbHub {
     }
     
     @objc func configThread() {
-        self.thread?.name = UsbHub.threadName
+        self.thread?.name = USBHub.threadName
         RunLoop.current.run(mode: .default, before: Date.distantFuture)
         self.socket = Socket(inputDelegate, outputDelegate)
     }

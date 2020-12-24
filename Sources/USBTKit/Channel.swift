@@ -14,9 +14,9 @@
 // limitations under the License.
 //  
 
-public struct Channel {
+struct Channel {
     
     let id: UInt
     var port: UInt16 = 666
-    var streamDelegate: EventDelegate?
+    var channelDelegate: ChannelDelegate?
 }
