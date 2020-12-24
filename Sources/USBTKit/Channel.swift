@@ -14,9 +14,8 @@
 // limitations under the License.
 //  
 
-struct Channel {
+import Foundation
+
+protocol Channel {
     
-    let id: UInt
-    var port: UInt16 = 666
-    var channelDelegate: ChannelDelegate?
 }

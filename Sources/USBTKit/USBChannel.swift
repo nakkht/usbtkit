@@ -14,25 +14,8 @@
 // limitations under the License.
 //  
 
-import XCTest
-@testable import USBTKit
-
-class ChannelTests: XCTestCase {
+struct USBChannel: Channel {
     
-    func testDefaultValues() {
-        let id = UInt.max
-        let device = Channel(id: id)
-        
-        XCTAssertEqual(666, device.port)
-        XCTAssertEqual(id, device.id)
-    }
-    
-    func testPortValues() {
-        let port = UInt16.min
-        let id = UInt.min
-        let device = Channel(id: id, port: port)
-        
-        XCTAssertEqual(port, device.port)
-        XCTAssertEqual(id, device.id)
-    }
+    let id: UInt
+    var port: UInt16 = 666
 }
