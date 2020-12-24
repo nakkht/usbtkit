@@ -16,7 +16,7 @@
 
 import Foundation
 
-final class StreamDelegate: NSObject, Foundation.StreamDelegate {
+final class EventDelegate: NSObject, Foundation.StreamDelegate {
     
     private let eventBlock: (Stream, Stream.Event) -> Void
     

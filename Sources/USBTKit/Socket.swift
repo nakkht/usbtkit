@@ -23,10 +23,10 @@ final class Socket {
     private var socketHandle: SocketNativeHandle
     private var inputStream: InputStream?
     private var outputStream: OutputStream?
-    private let inputDelegate: StreamDelegate?
-    private let outputDelegate: StreamDelegate?
+    private let inputDelegate: EventDelegate?
+    private let outputDelegate: EventDelegate?
     
-    init(_ inputDelegate: StreamDelegate?, _ outputDelegate: StreamDelegate?) {
+    init(_ inputDelegate: EventDelegate?, _ outputDelegate: EventDelegate?) {
         self.inputDelegate = inputDelegate
         self.outputDelegate = outputDelegate
         self.socketHandle = socket(AF_UNIX, SOCK_STREAM, 0)

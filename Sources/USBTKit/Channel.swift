@@ -18,5 +18,5 @@ public struct Channel {
     
     let id: UInt
     var port: UInt16 = 666
-    var streamDelegate: StreamDelegate?
+    var streamDelegate: EventDelegate?
 }
