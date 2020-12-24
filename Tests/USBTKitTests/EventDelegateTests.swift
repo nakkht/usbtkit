@@ -17,11 +17,11 @@
 import XCTest
 @testable import USBTKit
 
-class StreamDelegateTests: XCTestCase {
+class EventDelegateTests: XCTestCase {
     
     func testCallback() {
         let expectation = XCTestExpectation(description: "Delegate callback")
-        let delegate = StreamDelegate { (_, _) in
+        let delegate = EventDelegate { (_, _) in
             expectation.fulfill()
         }
         delegate.stream(Stream(), handle: .openCompleted)

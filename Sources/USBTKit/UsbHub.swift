@@ -27,12 +27,12 @@ final class UsbHub {
     
     private var socket: Socket?
     private var thread: Thread?
-    private var inputDelegate: StreamDelegate?
-    private var outputDelegate: StreamDelegate?
+    private var inputDelegate: EventDelegate?
+    private var outputDelegate: EventDelegate?
     
     private init() {
-        self.inputDelegate = StreamDelegate(self.input)
-        self.outputDelegate = StreamDelegate(self.output)
+        self.inputDelegate = EventDelegate(self.input)
+        self.outputDelegate = EventDelegate(self.output)
         self.thread = Thread(target: self, selector: #selector(configThread), object: nil)
         self.thread?.start()
     }
