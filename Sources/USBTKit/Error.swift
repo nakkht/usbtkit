@@ -14,9 +14,9 @@
 // limitations under the License.
 //  
 
-enum Error: Int, Swift.Error, CustomStringConvertible {
+enum Error: Swift.Error, CaseIterable, CustomStringConvertible {
     
-    case connectionRefused = 1
+    case connectionRefused
     
     var description: String {
         switch self {

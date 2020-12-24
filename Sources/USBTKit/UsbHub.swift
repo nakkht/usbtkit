@@ -39,7 +39,7 @@ final class USBHub {
     
     @objc func configThread() {
         self.thread?.name = USBHub.threadName
-        RunLoop.current.run(mode: .default, before: Date.distantFuture)
+        RunLoop.current.run(mode: .default, before: .distantFuture)
         self.socket = Socket(inputDelegate, outputDelegate)
     }
     
