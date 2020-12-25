@@ -37,21 +37,29 @@ final class USBHub {
         self.thread?.start()
     }
     
-    @objc func configThread() {
+    @objc private func configThread() {
         self.thread?.name = USBHub.threadName
         RunLoop.current.run(mode: .default, before: .distantFuture)
         self.socket = Socket(inputDelegate, outputDelegate)
     }
     
-    public func connect() {
+    func connect() {
         self.socket?.connect()
     }
     
-    func input(_ stream: Stream, event: Stream.Event) {
+    func write(data: Data) {
+        self.socket?.write(data: data)
+    }
+    
+    func disconnect() {
+        self.socket?.disconnect()
+    }
+    
+    private func input(_ stream: Stream, event: Stream.Event) {
         self.input.send((stream, event))
     }
     
-    func output(_ stream: Stream, event: Stream.Event) {
+    private func output(_ stream: Stream, event: Stream.Event) {
         self.output.send((stream, event))
     }
 }
