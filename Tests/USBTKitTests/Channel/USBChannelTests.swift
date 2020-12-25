@@ -21,18 +21,20 @@ class USBChannelTests: XCTestCase {
     
     func testDefaultValues() {
         let id = UInt.max
-        let channel = USBChannel(id: id)
+        let channel = USBChannel(id: id, hub: USBHub.shared)
         
         XCTAssertEqual(666, channel.port)
         XCTAssertEqual(id, channel.id)
+        XCTAssertNotNil(channel.hub)
     }
     
     func testPortValues() {
         let port = UInt16.min
         let id = UInt.min
-        let channel = USBChannel(id: id, port: port)
+        let channel = USBChannel(id: id, port: port, hub: USBHub.shared)
         
         XCTAssertEqual(port, channel.port)
         XCTAssertEqual(id, channel.id)
+        XCTAssertNotNil(channel.hub)
     }
 }

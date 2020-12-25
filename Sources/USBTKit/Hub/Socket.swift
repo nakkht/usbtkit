@@ -33,7 +33,7 @@ final class Socket {
         self.configure(socketHandle)
     }
     
-    func configure(_ socketHandle: SocketNativeHandle) {
+    private func configure(_ socketHandle: SocketNativeHandle) {
         var on = 1
         setsockopt(socketHandle, SOL_SOCKET, SO_NOSIGPIPE, &on, socklen_t(MemoryLayout<Int>.size))
         setsockopt(socketHandle, SOL_SOCKET, SO_REUSEADDR, &on, socklen_t(MemoryLayout<Int>.size))
@@ -51,9 +51,20 @@ final class Socket {
         configureStreams()
     }
     
-    func configureStreams() {
-        var inputStream: Unmanaged<CFReadStream>?
+    func write(data: Data) {
+        guard let dataBufferPointer = data.withUnsafeBytes({$0.bindMemory(to: UInt8.self) }).baseAddress else { return }
+        self.outputStream?.write(dataBufferPointer, maxLength: data.count)
+    }
+    
+    func disconnect() {
+        self.socketHandle = -1
+        self.inputStream?.close()
+        self.outputStream?.close()
+    }
+    
+    private func configureStreams() {
         var outputStream: Unmanaged<CFWriteStream>?
+        var inputStream: Unmanaged<CFReadStream>?
         CFStreamCreatePairWithSocket(kCFAllocatorDefault,
                                      socketHandle,
                                      &inputStream,
@@ -73,17 +84,6 @@ final class Socket {
         self.inputStream?.open()
         self.outputStream?.open()
         RunLoop.current.run()
-    }
-    
-    func write(data: Data) {
-        guard let dataBufferPointer = data.withUnsafeBytes({$0.bindMemory(to: UInt8.self) }).baseAddress else { return }
-        self.outputStream?.write(dataBufferPointer, maxLength: data.count)
-    }
-    
-    func disconnect() {
-        self.socketHandle = -1
-        self.inputStream?.close()
-        self.outputStream?.close()
     }
     
     var address: sockaddr_un {

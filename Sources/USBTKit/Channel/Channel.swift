@@ -12,10 +12,19 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//  
+//
 
 import Foundation
+import Combine
 
 protocol Channel {
     
+    var id: UInt { get }
+    var port: UInt16 { get }
+    var hub: USBHub { get }
+    
+    func open() -> AnyCancellable
+    func close()
+    func write(data: Data)
+    func received(_ stream: Stream, _ event: Stream.Event)
 }
