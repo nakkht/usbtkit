@@ -17,7 +17,7 @@
 import Foundation
 import Combine
 
-protocol Channel {
+public protocol Channel {
     
     var id: UInt { get }
     var port: UInt16 { get }

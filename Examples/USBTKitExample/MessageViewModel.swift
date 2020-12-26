@@ -21,6 +21,12 @@ class MessageViewModel: ObservableObject {
     
     @Published var messages = [Message]()
     
+    private let channel: USB
+    
+    init() {
+        
+    }
+    
     func send(_ message: String) {
         guard !message.isEmpty else { return }
         messages.append(Message(type: .ping, content: message))
