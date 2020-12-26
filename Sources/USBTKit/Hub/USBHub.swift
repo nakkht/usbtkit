@@ -17,7 +17,7 @@
 import Foundation
 import Combine
 
-final class USBHub {
+public final class USBHub {
     
     public lazy var input = PassthroughSubject<(Stream, Stream.Event), Never>()
     public lazy var output = PassthroughSubject<(Stream, Stream.Event), Never>()
