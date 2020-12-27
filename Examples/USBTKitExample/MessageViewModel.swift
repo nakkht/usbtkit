@@ -21,10 +21,10 @@ class MessageViewModel: ObservableObject {
     
     @Published var messages = [Message]()
     
-    private let channel: USB
+    private let channel: USBChannel
     
     init() {
-        
+        self.channel = USBChannel(id: <#T##UInt#>, hub: <#T##USBHub#>)
     }
     
     func send(_ message: String) {

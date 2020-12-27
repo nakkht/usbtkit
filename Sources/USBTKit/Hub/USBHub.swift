@@ -19,11 +19,11 @@ import Combine
 
 public final class USBHub {
     
-    public lazy var input = PassthroughSubject<(Stream, Stream.Event), Never>()
-    public lazy var output = PassthroughSubject<(Stream, Stream.Event), Never>()
-    
     static let threadName = "usbtkit.usb.stream"
     static let shared = USBHub()
+    
+    public lazy var input = PassthroughSubject<(Stream, Stream.Event), Never>()
+    public lazy var output = PassthroughSubject<(Stream, Stream.Event), Never>()
     
     private var socket: Socket?
     private var thread: Thread?

@@ -20,8 +20,8 @@ import Combine
 public protocol Channel {
     
     var id: UInt { get }
-    var port: UInt16 { get }
     var hub: USBHub { get }
+    var output: PassthroughSubject<Data, Never> { get }
     
     func open() -> AnyCancellable
     func close()
