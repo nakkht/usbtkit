@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76337678259934B3001B8D46 /* USBTKit in Frameworks */ = {isa = PBXBuildFile; productRef = 76337677259934B3001B8D46 /* USBTKit */; };
 		763FD4EE25966D7E0078B628 /* USBTKitExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FD4ED25966D7E0078B628 /* USBTKitExampleApp.swift */; };
-		763FD50B25966F0E0078B628 /* USBTKit in Frameworks */ = {isa = PBXBuildFile; productRef = 763FD50A25966F0E0078B628 /* USBTKit */; };
 		763FD514259671230078B628 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FD513259671230078B628 /* MessageViewModel.swift */; };
 		7665A899259674D3007C985C /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FD4EF25966D7E0078B628 /* ChatView.swift */; };
 		76FE87FE25967EEA00489DB3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FE87FD25967EEA00489DB3 /* Message.swift */; };
@@ -28,7 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				763FD50B25966F0E0078B628 /* USBTKit in Frameworks */,
+				76337678259934B3001B8D46 /* USBTKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,7 +80,7 @@
 			);
 			name = USBTKitExample;
 			packageProductDependencies = (
-				763FD50A25966F0E0078B628 /* USBTKit */,
+				76337677259934B3001B8D46 /* USBTKit */,
 			);
 			productName = USBTKitExample;
 			productReference = 763FD4EA25966D7E0078B628 /* USBTKitExample.app */;
@@ -110,7 +110,7 @@
 			);
 			mainGroup = 763FD4E125966D7E0078B628;
 			packageReferences = (
-				763FD50925966F0E0078B628 /* XCRemoteSwiftPackageReference "usbtkit" */,
+				76337676259934B3001B8D46 /* XCRemoteSwiftPackageReference "usbtkit" */,
 			);
 			productRefGroup = 763FD4EB25966D7E0078B628 /* Products */;
 			projectDirPath = "";
@@ -340,7 +340,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		763FD50925966F0E0078B628 /* XCRemoteSwiftPackageReference "usbtkit" */ = {
+		76337676259934B3001B8D46 /* XCRemoteSwiftPackageReference "usbtkit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nakkht/usbtkit.git";
 			requirement = {
@@ -351,9 +351,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		763FD50A25966F0E0078B628 /* USBTKit */ = {
+		76337677259934B3001B8D46 /* USBTKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 763FD50925966F0E0078B628 /* XCRemoteSwiftPackageReference "usbtkit" */;
+			package = 76337676259934B3001B8D46 /* XCRemoteSwiftPackageReference "usbtkit" */;
 			productName = USBTKit;
 		};
 /* End XCSwiftPackageProductDependency section */
