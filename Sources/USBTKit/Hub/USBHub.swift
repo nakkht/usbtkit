@@ -19,47 +19,50 @@ import Combine
 
 public final class USBHub {
     
-    static let threadName = "usbtkit.usb.stream"
     static let shared = USBHub()
     
     public lazy var input = PassthroughSubject<(Stream, Stream.Event), Never>()
     public lazy var output = PassthroughSubject<(Stream, Stream.Event), Never>()
     
     private var socket: Socket?
-    private var thread: Thread?
+    private var queue: DispatchQueue
     private var inputDelegate: EventDelegate?
     private var outputDelegate: EventDelegate?
     
     private init() {
+        self.queue = DispatchQueue(label: "usbtkit.usb.stream")
         self.inputDelegate = EventDelegate(self.input)
         self.outputDelegate = EventDelegate(self.output)
-        self.thread = Thread(target: self, selector: #selector(configThread), object: nil)
-        self.thread?.start()
-    }
-    
-    @objc private func configThread() {
-        self.thread?.name = USBHub.threadName
-        RunLoop.current.run(mode: .default, before: .distantFuture)
         self.socket = Socket(inputDelegate, outputDelegate)
     }
     
     func connect() {
-        self.socket?.connect()
+        queue.async {
+            self.socket?.connect()
+        }
     }
     
     func write(data: Data) {
-        self.socket?.write(data: data)
+        queue.async {
+            self.socket?.write(data: data)
+        }
     }
     
     func disconnect() {
-        self.socket?.disconnect()
+        queue.async {
+            self.socket?.disconnect()
+        }
     }
     
     private func input(_ stream: Stream, event: Stream.Event) {
-        self.input.send((stream, event))
+        queue.async {
+            self.input.send((stream, event))
+        }
     }
     
     private func output(_ stream: Stream, event: Stream.Event) {
-        self.output.send((stream, event))
+        queue.async {
+            self.output.send((stream, event))
+        }
     }
 }
