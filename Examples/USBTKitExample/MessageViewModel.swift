@@ -16,19 +16,38 @@
 
 import Foundation
 import USBTKit
+import Combine
 
 class MessageViewModel: ObservableObject {
     
     @Published var messages = [Message]()
     
     private let channel: USBChannel
+    private var outputStream: AnyCancellable?
+    private var connection: AnyCancellable?
     
     init() {
-        self.channel = USBChannel(id: <#T##UInt#>, hub: <#T##USBHub#>)
+        self.channel = USBChannel(id: 666)
+        self.outputStream = self.channel.output.sink(receiveValue: self.handleOutput)
+        self.connection = self.channel.open()
     }
     
     func send(_ message: String) {
-        guard !message.isEmpty else { return }
+        guard !message.isEmpty, let data = message.data(using: .utf8) else { return }
         messages.append(Message(type: .ping, content: message))
+        self.channel.write(data: data)
+    }
+    
+    func handleOutput(_ data: Data) {
+        guard let response = String(data: data, encoding: .utf8) else {
+            print(data.base64EncodedData())
+            return
+        }
+        print(response)
+    }
+    
+    deinit {
+        self.connection?.cancel()
+        self.outputStream?.cancel()
     }
 }
