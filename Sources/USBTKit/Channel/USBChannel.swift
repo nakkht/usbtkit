@@ -31,7 +31,7 @@ public struct USBChannel: Channel {
         self.id = id
     }
     
-    public func open() -> AnyCancellable {
+    public func listen() -> AnyCancellable {
         let stream = self.hub.input.sink(receiveValue: self.received)
         self.hub.connect()
         return stream

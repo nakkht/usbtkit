@@ -23,7 +23,7 @@ public protocol Channel {
     var hub: USBHub { get }
     var output: PassthroughSubject<Data, Never> { get }
     
-    func open() -> AnyCancellable
+    func listen() -> AnyCancellable
     func close()
     func write(data: Data)
     func received(_ stream: Stream, _ event: Stream.Event)
