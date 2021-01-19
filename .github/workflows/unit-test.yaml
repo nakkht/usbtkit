@@ -17,23 +17,23 @@ jobs:
     env: 
       DEVELOPER_DIR: /Applications/Xcode_12.3.app/Contents/Developer
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Cache build
-      uses: actions/cache@v2
-      with:
-        path: .build
-        key: unit-test-xcode-12
-    - name: Test
-      run: swift test --enable-code-coverage -v 2>&1 | xcpretty
-    - name: Export code coverage
-      if: github.ref == 'refs/heads/develop'
-      run: xcrun llvm-cov export -format="lcov" .build/x86_64-apple-macosx/debug/USBTKitPackageTests.xctest/Contents/MacOS/USBTKitPackageTests -instr-profile=.build/x86_64-apple-macosx/debug/codecov/default.profdata > .build/usbtkit-coverage.lcov
-    - name: Upload code coverage
-      if: github.ref == 'refs/heads/develop'
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: .build/usbtkit-coverage.lcov
-        fail_ci_if_error: true
-        verbose: true
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache build
+        uses: actions/cache@v2
+        with:
+          path: .build
+          key: unit-test-xcode-12
+      - name: Test
+        run: swift test --enable-code-coverage -v 2>&1 | xcpretty
+      - name: Export code coverage
+        if: github.ref == 'refs/heads/develop'
+        run: xcrun llvm-cov export -format="lcov" .build/x86_64-apple-macosx/debug/USBTKitPackageTests.xctest/Contents/MacOS/USBTKitPackageTests -instr-profile=.build/x86_64-apple-macosx/debug/codecov/default.profdata > .build/usbtkit-coverage.lcov
+      - name: Upload code coverage
+        if: github.ref == 'refs/heads/develop'
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: .build/usbtkit-coverage.lcov
+          fail_ci_if_error: true
+          verbose: true
