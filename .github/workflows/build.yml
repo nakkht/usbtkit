@@ -11,18 +11,19 @@ env:
   LANG: en_US.UTF-8
 
 jobs:
-  macOS-5_3:
-    name: Build macOS Swift (5.3)
-    runs-on: macos-11.0
+  build-latest:
+    name: Build macOS latest
+    runs-on: macos-latest
     env: 
-      DEVELOPER_DIR: /Applications/Xcode_12.3.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cache build
         uses: actions/cache@v2
         with:
-          path: .build
-          key: ${{ runner.os }}-build-xcode-12
+          path: |
+            .build
+          key: ${{ runner.os }}-cache
       - name: Build
         run: swift build -v
