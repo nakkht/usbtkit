@@ -24,7 +24,7 @@ jobs:
         with:
           path: |
             .build
-          key: unit-test-xcode-12
+          key: ${{ runner.os }}-build-cache
       - name: Test
         run: swift test --enable-code-coverage -v 2>&1 | xcpretty
       - name: Export code coverage
@@ -34,7 +34,6 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         uses: codecov/codecov-action@v1
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           file: .build/usbtkit-coverage.lcov
           fail_ci_if_error: true
           verbose: true
