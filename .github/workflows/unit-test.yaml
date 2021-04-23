@@ -25,6 +25,8 @@ jobs:
           path: |
             .build
           key: ${{ runner.os }}-build-cache
+      - name: Lint
+        run: swiftlint
       - name: Test
         run: swift test --enable-code-coverage -v 2>&1 | xcpretty
       - name: Export code coverage
