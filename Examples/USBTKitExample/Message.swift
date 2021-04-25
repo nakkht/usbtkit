@@ -17,7 +17,7 @@
 import Foundation
 
 struct Message: Identifiable, Hashable {
-    
+
     let id = UUID()
     let type: MessageType
     let content: String

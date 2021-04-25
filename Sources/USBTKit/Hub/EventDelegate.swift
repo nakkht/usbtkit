@@ -17,13 +17,13 @@
 import Foundation
 
 final class EventDelegate: NSObject, Foundation.StreamDelegate {
-    
+
     private let eventBlock: (Stream, Stream.Event) -> Void
-    
+
     init(_ eventBlock: @escaping (Stream, Stream.Event) -> Void) {
         self.eventBlock = eventBlock
     }
-    
+
     func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
         self.eventBlock(aStream, eventCode)
     }

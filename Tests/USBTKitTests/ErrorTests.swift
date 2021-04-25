@@ -18,7 +18,7 @@ import XCTest
 @testable import USBTKit
 
 class ErrorTests: XCTestCase {
-    
+
     func testValues() {
         USBTKit.Error.allCases.forEach {
             switch $0 {

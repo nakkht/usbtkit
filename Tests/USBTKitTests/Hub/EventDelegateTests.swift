@@ -18,7 +18,7 @@ import XCTest
 @testable import USBTKit
 
 class EventDelegateTests: XCTestCase {
-    
+
     func testCallback() {
         let expectation = XCTestExpectation(description: "Delegate callback")
         let delegate = EventDelegate { (_, _) in

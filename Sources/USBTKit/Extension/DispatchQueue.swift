@@ -1,5 +1,5 @@
 //
-// Copyright 2020 Paulius Gudonis
+// Copyright 2021 Paulius Gudonis
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,24 +14,9 @@
 // limitations under the License.
 //  
 
-import XCTest
-@testable import USBTKit
+import Foundation
 
-class USBChannelTests: XCTestCase {
+extension DispatchQueue {
 
-    func testDefaultValues() {
-        let id = UInt.max
-        let channel = USBChannel(id: id)
-
-        XCTAssertEqual(id, channel.id)
-        XCTAssertNotNil(channel.hub)
-    }
-
-    func testPortValues() {
-        let id = UInt.min
-        let channel = USBChannel(id: id)
-
-        XCTAssertEqual(id, channel.id)
-        XCTAssertNotNil(channel.hub)
-    }
+    static let stream = DispatchQueue(label: "usbtkit.usb.stream")
 }

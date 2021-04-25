@@ -17,11 +17,11 @@
 import SwiftUI
 
 struct ChatView: View {
-    
+
     @State private var textInput = ""
-    
+
     @ObservedObject var viewModel: MessageViewModel
-    
+
     var body: some View {
         VStack {
             ScrollView {
@@ -46,11 +46,11 @@ struct ChatView: View {
 }
 
 struct MessageView: View {
-    
+
     let message: Message
-    
+
     var body: some View {
-        if (message.type == .ping) {
+        if message.type == .ping {
             HStack {
                 Spacer()
                 self.textView
@@ -62,7 +62,7 @@ struct MessageView: View {
             }
         }
     }
-    
+
     var textView: some View {
         Text(message.content)
             .font(.subheadline)
