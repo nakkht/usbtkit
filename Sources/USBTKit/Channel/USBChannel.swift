@@ -18,33 +18,33 @@ import Foundation
 import Combine
 
 public struct USBChannel: Channel {
-    
+
     static let bufferSize = 2048
-    
+
     public let id: UInt
     public let hub = USBHub.shared
     public let output = PassthroughSubject<Data, Never>()
-    
+
     let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: USBChannel.bufferSize)
-    
+
     public init(id: UInt) {
         self.id = id
     }
-    
+
     public func listen() -> AnyCancellable {
         let stream = self.hub.input.sink(receiveValue: self.received)
         self.hub.connect()
         return stream
     }
-    
+
     public func close() {
         self.hub.disconnect()
     }
-    
+
     public func write(data: Data) {
         self.hub.write(data: data)
     }
-    
+
     public func received(_ stream: Stream, _ event: Stream.Event) {
         guard let stream = stream as? InputStream, event == .hasBytesAvailable else { return }
         var data = Data()

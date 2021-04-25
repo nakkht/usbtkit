@@ -18,48 +18,45 @@ import Foundation
 import Combine
 
 public final class USBHub {
-    
+
     static let shared = USBHub()
-    
-    public lazy var input = PassthroughSubject<(Stream, Stream.Event), Never>()
-    public lazy var output = PassthroughSubject<(Stream, Stream.Event), Never>()
-    
+
+    public let input: PassthroughSubject<(Stream, Stream.Event), Never>
+    public let output: PassthroughSubject<(Stream, Stream.Event), Never>
+
+    private let queue = DispatchQueue.stream
     private var socket: Socket?
-    private var queue: DispatchQueue
-    private var inputDelegate: EventDelegate?
-    private var outputDelegate: EventDelegate?
-    
+
     private init() {
-        self.queue = DispatchQueue(label: "usbtkit.usb.stream")
-        self.inputDelegate = EventDelegate(self.input)
-        self.outputDelegate = EventDelegate(self.output)
-        self.socket = Socket(inputDelegate, outputDelegate)
+        self.input = PassthroughSubject<(Stream, Stream.Event), Never>()
+        self.output = PassthroughSubject<(Stream, Stream.Event), Never>()
+        self.socket = Socket(EventDelegate(self.input), EventDelegate(self.output))
     }
-    
+
     func connect() {
         queue.async {
             self.socket?.connect()
         }
     }
-    
+
     func write(data: Data) {
         queue.async {
             self.socket?.write(data: data)
         }
     }
-    
+
     func disconnect() {
         queue.async {
             self.socket?.disconnect()
         }
     }
-    
+
     private func input(_ stream: Stream, event: Stream.Event) {
         queue.async {
             self.input.send((stream, event))
         }
     }
-    
+
     private func output(_ stream: Stream, event: Stream.Event) {
         queue.async {
             self.output.send((stream, event))

@@ -17,29 +17,29 @@
 import Foundation
 
 final class Socket {
-    
+
     static let muxdPath = "/private/var/run/usbmuxd"
-    
+
     private var socketHandle: SocketNativeHandle
     private var inputStream: InputStream?
     private var outputStream: OutputStream?
-    private let inputDelegate: EventDelegate?
-    private let outputDelegate: EventDelegate?
-    
-    init(_ inputDelegate: EventDelegate?, _ outputDelegate: EventDelegate?) {
+    private weak var inputDelegate: EventDelegate?
+    private weak var outputDelegate: EventDelegate?
+
+    init(_ inputDelegate: EventDelegate, _ outputDelegate: EventDelegate) {
         self.inputDelegate = inputDelegate
         self.outputDelegate = outputDelegate
         self.socketHandle = socket(AF_UNIX, SOCK_STREAM, 0)
         self.configure(socketHandle)
     }
-    
+
     private func configure(_ socketHandle: SocketNativeHandle) {
         var on = 1
         setsockopt(socketHandle, SOL_SOCKET, SO_NOSIGPIPE, &on, socklen_t(MemoryLayout<Int>.size))
         setsockopt(socketHandle, SOL_SOCKET, SO_REUSEADDR, &on, socklen_t(MemoryLayout<Int>.size))
         setsockopt(socketHandle, SOL_SOCKET, SO_REUSEPORT, &on, socklen_t(MemoryLayout<Int>.size))
     }
-    
+
     func connect() {
         var addr = self.address
         let result = withUnsafeMutablePointer(to: &addr) {
@@ -50,18 +50,18 @@ final class Socket {
         guard result != -1 else { return }
         configureStreams()
     }
-    
+
     func write(data: Data) {
         guard let dataBufferPointer = data.withUnsafeBytes({$0.bindMemory(to: UInt8.self) }).baseAddress else { return }
         self.outputStream?.write(dataBufferPointer, maxLength: data.count)
     }
-    
+
     func disconnect() {
         self.socketHandle = -1
         self.inputStream?.close()
         self.outputStream?.close()
     }
-    
+
     private func configureStreams() {
         var outputStream: Unmanaged<CFWriteStream>?
         var inputStream: Unmanaged<CFReadStream>?
@@ -85,7 +85,7 @@ final class Socket {
         self.outputStream?.open()
         RunLoop.current.run()
     }
-    
+
     var address: sockaddr_un {
         var socketAddr = sockaddr_un()
         socketAddr.sun_family = sa_family_t(AF_UNIX)

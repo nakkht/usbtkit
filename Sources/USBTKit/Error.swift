@@ -15,9 +15,9 @@
 //  
 
 enum Error: Swift.Error, CaseIterable, CustomStringConvertible {
-    
+
     case connectionRefused
-    
+
     var description: String {
         switch self {
         case .connectionRefused: return "Connection refused"
