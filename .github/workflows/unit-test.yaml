@@ -27,7 +27,9 @@ jobs:
       - name: Lint
         run: swiftlint --strict
       - name: Test
-        run: swift test --enable-code-coverage -v 2>&1 | xcpretty
+        run: |
+          set -o pipefail
+          swift test --enable-code-coverage -v 2>&1 | xcpretty
       - name: Export code coverage
         if: github.ref == 'refs/heads/develop'
         run: xcrun llvm-cov export -format="lcov" .build/x86_64-apple-macosx/debug/USBTKitPackageTests.xctest/Contents/MacOS/USBTKitPackageTests -instr-profile=.build/x86_64-apple-macosx/debug/codecov/default.profdata > .build/usbtkit-coverage.lcov
