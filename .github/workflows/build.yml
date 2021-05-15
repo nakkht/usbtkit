@@ -27,4 +27,6 @@ jobs:
       - name: Lint
         run: swiftlint --strict
       - name: Build
-        run: swift build -v
+        run: |
+          set -o pipefail
+          swift build -v | xcpretty
