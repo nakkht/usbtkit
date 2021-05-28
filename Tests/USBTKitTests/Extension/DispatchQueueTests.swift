@@ -14,9 +14,14 @@
 // limitations under the License.
 //  
 
-import Foundation
+import XCTest
+@testable import USBTKit
 
-extension DispatchQueue {
+class DispatchQueueTests: XCTestCase {
 
-    static let stream = DispatchQueue(label: "usbtkit.usb.stream", qos: .userInitiated)
+    func testStreamDispatchQueueConfig() {
+        let queue = DispatchQueue.stream
+        XCTAssertEqual("usbtkit.usb.stream", queue.label)
+        XCTAssertEqual(.userInitiated, queue.qos)
+    }
 }
