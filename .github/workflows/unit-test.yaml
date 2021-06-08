@@ -37,7 +37,6 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         uses: codecov/codecov-action@v1
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           file: .build/usbtkit-coverage.lcov
           flags: unittests
           fail_ci_if_error: true
