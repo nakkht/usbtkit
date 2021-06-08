@@ -6,7 +6,7 @@ let package = Package(
     name: "USBTKit",
     platforms: [
         .macOS(.v10_15),
-        .iOS(.v13)
+        .iOS(.v14)
     ],
     products: [
         .library(name: "USBTKit",
