@@ -13,7 +13,7 @@ Swift library to allow data transmission over USB
 ## License
 This repository is under the **Apache v2.0** license. [Find it here](https://github.com/nakkht/usbtkit/blob/main/LICENSE).
 
-    Copyright 2020 Paulius Gudonis
+    Copyright 2021 Paulius Gudonis
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
