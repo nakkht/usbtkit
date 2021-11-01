@@ -35,7 +35,7 @@ jobs:
         run: xcrun llvm-cov export -format="lcov" .build/x86_64-apple-macosx/debug/USBTKitPackageTests.xctest/Contents/MacOS/USBTKitPackageTests -instr-profile=.build/x86_64-apple-macosx/debug/codecov/default.profdata > .build/usbtkit-coverage.lcov
       - name: Upload code coverage
         if: github.ref == 'refs/heads/develop'
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v2
         with:
           file: .build/usbtkit-coverage.lcov
           flags: unittests
