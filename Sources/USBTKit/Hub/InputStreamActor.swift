@@ -17,15 +17,15 @@
 import Foundation
 
 actor InputStreamActor {
-    
+
     private var inputStream: InputStream?
-    
+
     init(_ inputStream: InputStream?) {
         self.inputStream = inputStream
         self.inputStream?.schedule(in: .current, forMode: .default)
         self.inputStream?.open()
     }
-    
+
     func close() async {
         self.inputStream?.close()
     }
