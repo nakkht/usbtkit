@@ -22,7 +22,7 @@ class ErrorTests: XCTestCase {
     func testValues() {
         USBTKit.Error.allCases.forEach {
             switch $0 {
-            case .connectionRefused: XCTAssertEqual("Connection refused", $0.description)
+            case .connectionRefused: XCTAssertEqual("connection refused", $0.description)
             }
         }
     }

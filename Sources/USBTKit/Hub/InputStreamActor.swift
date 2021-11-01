@@ -14,14 +14,19 @@
 // limitations under the License.
 //  
 
-import XCTest
-@testable import USBTKit
+import Foundation
 
-class DispatchQueueTests: XCTestCase {
-
-    func testStreamDispatchQueueConfig() {
-        let queue = DispatchQueue.stream
-        XCTAssertEqual("usbtkit.usb.stream", queue.label)
-        XCTAssertEqual(.userInitiated, queue.qos)
+actor InputStreamActor {
+    
+    private var inputStream: InputStream?
+    
+    init(_ inputStream: InputStream?) {
+        self.inputStream = inputStream
+        self.inputStream?.schedule(in: .current, forMode: .default)
+        self.inputStream?.open()
+    }
+    
+    func close() async {
+        self.inputStream?.close()
     }
 }

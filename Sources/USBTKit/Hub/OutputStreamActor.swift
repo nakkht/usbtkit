@@ -1,5 +1,5 @@
 //
-// Copyright 2020 Paulius Gudonis
+// Copyright 2021 Paulius Gudonis
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,17 +14,23 @@
 // limitations under the License.
 //  
 
-import XCTest
-@testable import USBTKit
+import Foundation
 
-class EventDelegateTests: XCTestCase {
-
-    func testCallback() {
-        let expectation = XCTestExpectation(description: "Delegate callback")
-        let delegate = EventDelegate { (_, _) in
-            expectation.fulfill()
-        }
-        delegate.stream(Stream(), handle: .openCompleted)
-        wait(for: [expectation], timeout: 1.0)
+actor OutputStreamActor {
+    
+    private var outputStream: OutputStream?
+    
+    init(_ outputStream: OutputStream?) {
+        self.outputStream = outputStream
+        self.outputStream?.schedule(in: .current, forMode: .default)
+        self.outputStream?.open()
+    }
+    
+    func write(_ dataBufferPointer: UnsafePointer<UInt8>, maxLength: Int) async {
+        self.outputStream?.write(dataBufferPointer, maxLength: maxLength)
+    }
+    
+    func close() {
+        self.outputStream?.close()
     }
 }

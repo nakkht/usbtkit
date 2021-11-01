@@ -21,14 +21,10 @@ final class Socket {
     static let muxdPath = "/private/var/run/usbmuxd"
 
     private var socketHandle: SocketNativeHandle
-    private var inputStream: InputStream?
-    private var outputStream: OutputStream?
-    private weak var inputDelegate: EventDelegate?
-    private weak var outputDelegate: EventDelegate?
+    private var input: InputStreamActor?
+    private var output: OutputStreamActor?
 
-    init(_ inputDelegate: EventDelegate, _ outputDelegate: EventDelegate) {
-        self.inputDelegate = inputDelegate
-        self.outputDelegate = outputDelegate
+    init() {
         self.socketHandle = socket(AF_UNIX, SOCK_STREAM, 0)
         self.configure(socketHandle)
     }
@@ -51,15 +47,15 @@ final class Socket {
         configureStreams()
     }
 
-    func write(data: Data) {
+    func write(data: Data) async {
         guard let dataBufferPointer = data.withUnsafeBytes({$0.bindMemory(to: UInt8.self) }).baseAddress else { return }
-        self.outputStream?.write(dataBufferPointer, maxLength: data.count)
+        await self.output?.write(dataBufferPointer, maxLength: data.count)
     }
 
-    func disconnect() {
+    func disconnect() async {
         self.socketHandle = -1
-        self.inputStream?.close()
-        self.outputStream?.close()
+        await self.input?.close()
+        await self.output?.close()
     }
 
     private func configureStreams() {
@@ -75,14 +71,8 @@ final class Socket {
         CFWriteStreamSetProperty(outputStream!.takeUnretainedValue(),
                                  CFStreamPropertyKey(rawValue: kCFStreamPropertyShouldCloseNativeSocket),
                                  kCFBooleanTrue)
-        self.inputStream = inputStream?.takeRetainedValue()
-        self.outputStream = outputStream?.takeRetainedValue()
-        self.inputStream?.schedule(in: .current, forMode: .default)
-        self.outputStream?.schedule(in: .current, forMode: .default)
-        self.inputStream?.delegate = self.inputDelegate
-        self.outputStream?.delegate = self.outputDelegate
-        self.inputStream?.open()
-        self.outputStream?.open()
+        self.input = InputStreamActor(inputStream?.takeRetainedValue())
+        self.output = OutputStreamActor(outputStream?.takeRetainedValue())
         RunLoop.current.run()
     }
 
