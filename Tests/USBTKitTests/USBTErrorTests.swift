@@ -17,12 +17,15 @@
 import XCTest
 @testable import USBTKit
 
-class ErrorTests: XCTestCase {
+class USBTErrorTests: XCTestCase {
 
     func testValues() {
-        USBTKit.Error.allCases.forEach {
+        USBTError.allCases.forEach {
             switch $0 {
-            case .connectionRefused: XCTAssertEqual("connection refused", $0.description)
+            case .connectionRefused:
+                XCTAssertEqual("connection refused", $0.description)
+            case .connection(code: let code):
+                XCTAssertEqual(-1, code)
             }
         }
     }

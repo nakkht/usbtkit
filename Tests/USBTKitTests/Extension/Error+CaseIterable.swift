@@ -1,5 +1,5 @@
 //
-// Copyright 2020 Paulius Gudonis
+// Copyright 2021 Paulius Gudonis
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,11 @@
 // limitations under the License.
 //  
 
-public enum Error: Swift.Error, CaseIterable, CustomStringConvertible {
+import Foundation
+@testable import USBTKit
 
-    case connectionRefused
-
-    public var description: String {
-        switch self {
-        case .connectionRefused: return "connection refused"
-        }
+extension USBTError: CaseIterable {
+    public static var allCases: [USBTError] {
+        [.connectionRefused, .connection(code: -1)]
     }
 }

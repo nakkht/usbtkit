@@ -36,14 +36,14 @@ final class Socket {
         setsockopt(socketHandle, SOL_SOCKET, SO_REUSEPORT, &on, socklen_t(MemoryLayout<Int>.size))
     }
 
-    func connect() {
+    func connect() throws {
         var addr = self.address
         let result = withUnsafeMutablePointer(to: &addr) {
             $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
                 Darwin.connect(socketHandle, $0, socklen_t(MemoryLayout.size(ofValue: address)))
             }
         }
-        guard result != -1 else { return }
+        guard result != -1 else { throw USBTError.connection(code: Int(result)) }
         configureStreams()
     }
 
@@ -61,10 +61,7 @@ final class Socket {
     private func configureStreams() {
         var outputStream: Unmanaged<CFWriteStream>?
         var inputStream: Unmanaged<CFReadStream>?
-        CFStreamCreatePairWithSocket(kCFAllocatorDefault,
-                                     socketHandle,
-                                     &inputStream,
-                                     &outputStream)
+        CFStreamCreatePairWithSocket(kCFAllocatorDefault, socketHandle, &inputStream, &outputStream)
         CFReadStreamSetProperty(inputStream!.takeUnretainedValue(),
                                 CFStreamPropertyKey(rawValue: kCFStreamPropertyShouldCloseNativeSocket),
                                 kCFBooleanTrue)
@@ -73,10 +70,9 @@ final class Socket {
                                  kCFBooleanTrue)
         self.input = InputStreamActor(inputStream?.takeRetainedValue())
         self.output = OutputStreamActor(outputStream?.takeRetainedValue())
-        RunLoop.current.run()
     }
 
-    var address: sockaddr_un {
+    private var address: sockaddr_un {
         var socketAddr = sockaddr_un()
         socketAddr.sun_family = sa_family_t(AF_UNIX)
         withUnsafeMutablePointer(to: &socketAddr.sun_path.0) { (pointer) in

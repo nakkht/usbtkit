@@ -14,24 +14,15 @@
 // limitations under the License.
 //  
 
-import XCTest
-@testable import USBTKit
+public enum USBTError: Swift.Error, CustomStringConvertible {
 
-final class USBChannelTests: XCTestCase {
+    case connectionRefused
+    case connection(code: Int)
 
-    func testDefaultValues() {
-        let id = UInt.max
-        let channel = USBChannel(id: id)
-
-        XCTAssertEqual(id, channel.id)
-        XCTAssertNotNil(channel.hub)
-    }
-
-    func testPortValues() {
-        let id = UInt.min
-        let channel = USBChannel(id: id)
-
-        XCTAssertEqual(id, channel.id)
-        XCTAssertNotNil(channel.hub)
+    public var description: String {
+        switch self {
+        case .connectionRefused: return "connection refused"
+        case .connection(let code): return "error code:\(code)"
+        }
     }
 }
