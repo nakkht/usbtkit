@@ -68,8 +68,8 @@ final class Socket {
         CFWriteStreamSetProperty(outputStream!.takeUnretainedValue(),
                                  CFStreamPropertyKey(rawValue: kCFStreamPropertyShouldCloseNativeSocket),
                                  kCFBooleanTrue)
-        self.input = InputStreamActor(inputStream?.takeRetainedValue())
-        self.output = OutputStreamActor(outputStream?.takeRetainedValue())
+        self.input = InputStreamActor(inputStream!.takeRetainedValue())
+        self.output = OutputStreamActor(outputStream!.takeRetainedValue())
     }
 
     private var address: sockaddr_un {

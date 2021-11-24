@@ -18,19 +18,19 @@ import Foundation
 
 actor OutputStreamActor {
 
-    private var outputStream: OutputStream?
+    private var outputStream: OutputStream
 
-    init(_ outputStream: OutputStream?) {
+    init(_ outputStream: OutputStream) {
         self.outputStream = outputStream
-        self.outputStream?.schedule(in: .current, forMode: .default)
-        self.outputStream?.open()
+        self.outputStream.schedule(in: .current, forMode: .default)
+        self.outputStream.open()
     }
 
     func write(_ dataBufferPointer: UnsafePointer<UInt8>, maxLength: Int) async {
-        self.outputStream?.write(dataBufferPointer, maxLength: maxLength)
+        self.outputStream.write(dataBufferPointer, maxLength: maxLength)
     }
 
     func close() {
-        self.outputStream?.close()
+        self.outputStream.close()
     }
 }
