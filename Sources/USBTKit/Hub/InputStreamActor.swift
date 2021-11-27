@@ -19,14 +19,21 @@ import Foundation
 actor InputStreamActor {
 
     private var inputStream: InputStream
+    private var inputDelegate: EventDelegate?
 
-    init(_ inputStream: InputStream) {
+    init(_ inputStream: InputStream) async {
         self.inputStream = inputStream
+        self.inputDelegate = EventDelegate(self.input)
         self.inputStream.schedule(in: .current, forMode: .default)
+        self.inputStream.delegate = self.inputDelegate
         self.inputStream.open()
     }
 
     func close() async {
         self.inputStream.close()
+    }
+
+    private func input(_ stream: Stream, event: Stream.Event) {
+
     }
 }

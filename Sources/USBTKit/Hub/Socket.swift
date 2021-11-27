@@ -36,7 +36,7 @@ final class Socket {
         setsockopt(socketHandle, SOL_SOCKET, SO_REUSEPORT, &on, socklen_t(MemoryLayout<Int>.size))
     }
 
-    func connect() throws {
+    func connect() async throws {
         var addr = self.address
         let result = withUnsafeMutablePointer(to: &addr) {
             $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
@@ -44,7 +44,7 @@ final class Socket {
             }
         }
         guard result != -1 else { throw USBTError.connection(code: Int(result)) }
-        configureStreams()
+        await configureStreams()
     }
 
     func write(data: Data) async {
@@ -58,7 +58,7 @@ final class Socket {
         await self.output?.close()
     }
 
-    private func configureStreams() {
+    private func configureStreams() async {
         var outputStream: Unmanaged<CFWriteStream>?
         var inputStream: Unmanaged<CFReadStream>?
         CFStreamCreatePairWithSocket(kCFAllocatorDefault, socketHandle, &inputStream, &outputStream)
@@ -68,8 +68,8 @@ final class Socket {
         CFWriteStreamSetProperty(outputStream!.takeUnretainedValue(),
                                  CFStreamPropertyKey(rawValue: kCFStreamPropertyShouldCloseNativeSocket),
                                  kCFBooleanTrue)
-        self.input = InputStreamActor(inputStream!.takeRetainedValue())
-        self.output = OutputStreamActor(outputStream!.takeRetainedValue())
+        await self.input = InputStreamActor(inputStream!.takeRetainedValue())
+        await self.output = OutputStreamActor(outputStream!.takeRetainedValue())
     }
 
     private var address: sockaddr_un {

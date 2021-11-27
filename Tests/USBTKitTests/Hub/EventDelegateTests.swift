@@ -1,5 +1,5 @@
 //
-// Copyright 2020 Paulius Gudonis
+// Copyright 2021 Paulius Gudonis
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,28 +14,17 @@
 // limitations under the License.
 //  
 
-import Foundation
-import Combine
+import XCTest
+@testable import USBTKit
 
-public final class USBHub {
+class EventDelegateTests: XCTestCase {
 
-    static let shared = USBHub()
-
-    private var socket: Socket?
-
-    private init() {
-        self.socket = Socket()
-    }
-
-    func connect() async throws {
-        try await self.socket?.connect()
-    }
-
-    func write(data: Data) async {
-        await self.socket?.write(data: data)
-    }
-
-    func disconnect() async {
-        await self.socket?.disconnect()
+    func testCallback() {
+        let expectation = XCTestExpectation(description: "Delegate callback")
+        let delegate = EventDelegate { (_, _) in
+            expectation.fulfill()
+        }
+        delegate.stream(Stream(), handle: .openCompleted)
+        wait(for: [expectation], timeout: 1.0)
     }
 }

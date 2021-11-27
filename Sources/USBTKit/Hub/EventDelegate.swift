@@ -1,5 +1,5 @@
 //
-// Copyright 2020 Paulius Gudonis
+// Copyright 2021 Paulius Gudonis
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,27 +15,16 @@
 //  
 
 import Foundation
-import Combine
 
-public final class USBHub {
+final class EventDelegate: NSObject, Foundation.StreamDelegate {
 
-    static let shared = USBHub()
+    private let eventBlock: (Stream, Stream.Event) -> Void
 
-    private var socket: Socket?
-
-    private init() {
-        self.socket = Socket()
+    init(_ eventBlock: @escaping (Stream, Stream.Event) -> Void) {
+        self.eventBlock = eventBlock
     }
 
-    func connect() async throws {
-        try await self.socket?.connect()
-    }
-
-    func write(data: Data) async {
-        await self.socket?.write(data: data)
-    }
-
-    func disconnect() async {
-        await self.socket?.disconnect()
+    func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
+        self.eventBlock(aStream, eventCode)
     }
 }
