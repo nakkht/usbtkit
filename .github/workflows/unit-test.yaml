@@ -28,6 +28,7 @@ jobs:
         run: swiftlint --strict
       - name: Test
         run: |
+          set -o pipefail
           swift test --enable-code-coverage -v 2>&1 | xcpretty
       - name: Export code coverage
         if: github.ref == 'refs/heads/develop'
