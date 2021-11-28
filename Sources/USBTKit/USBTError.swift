@@ -17,12 +17,12 @@
 public enum USBTError: Swift.Error, CustomStringConvertible {
 
     case connectionRefused
-    case connection(code: Int)
+    case failure(code: Int)
 
     public var description: String {
         switch self {
         case .connectionRefused: return "connection refused"
-        case .connection(let code): return "error code:\(code)"
+        case .failure(let code): return "failure code: \(code)"
         }
     }
 }

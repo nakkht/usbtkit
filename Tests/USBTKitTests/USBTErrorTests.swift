@@ -24,8 +24,9 @@ class USBTErrorTests: XCTestCase {
             switch $0 {
             case .connectionRefused:
                 XCTAssertEqual("connection refused", $0.description)
-            case .connection(code: let code):
+            case .failure(code: let code):
                 XCTAssertEqual(-1, code)
+                XCTAssertEqual("failure code: -1", $0.description)
             }
         }
     }

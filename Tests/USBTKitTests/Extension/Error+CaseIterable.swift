@@ -19,6 +19,6 @@ import Foundation
 
 extension USBTError: CaseIterable {
     public static var allCases: [USBTError] {
-        [.connectionRefused, .connection(code: -1)]
+        [.connectionRefused, .failure(code: -1)]
     }
 }

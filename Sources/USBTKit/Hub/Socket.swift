@@ -43,7 +43,7 @@ final class Socket {
                 Darwin.connect(socketHandle, $0, socklen_t(MemoryLayout.size(ofValue: address)))
             }
         }
-        guard result != -1 else { throw USBTError.connection(code: Int(result)) }
+        guard result != -1 else { throw USBTError.failure(code: Int(result)) }
         await configureStreams()
     }
 
