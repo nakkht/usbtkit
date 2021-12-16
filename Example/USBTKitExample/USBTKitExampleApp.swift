@@ -18,9 +18,19 @@ import SwiftUI
 
 @main
 struct USBTKitExampleApp: App {
+
+    @Environment(\.scenePhase) var scenePhase
+
+    private let chatViewModel = ChatViewModel()
+
     var body: some Scene {
         WindowGroup {
-            ChatView(viewModel: MessageViewModel())
+            ChatView(viewModel: chatViewModel)
+        }
+        .onChange(of: scenePhase) {
+            if $0 == .active {
+                Task { await chatViewModel.listen() }
+            }
         }
     }
 }

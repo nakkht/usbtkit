@@ -19,12 +19,12 @@ import Combine
 
 public protocol Channel {
 
-//    var id: UInt { get }
-//    var hub: USBHub { get }
-//    var output: PassthroughSubject<Data, Never> { get }
-//
-//    func listen() -> AnyCancellable
-//    func close()
-//    func write(data: Data)
-//    func received(_ stream: Stream, _ event: Stream.Event)
+    var id: UInt { get }
+    var hub: USBHub { get }
+    var output: PassthroughSubject<Data, USBTError> { get }
+
+    func listen() async throws -> AnyCancellable
+    func close() async
+    func write(data: Data) async
+    func received(_ stream: Stream, _ event: Stream.Event)
 }

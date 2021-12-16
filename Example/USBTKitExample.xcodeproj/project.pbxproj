@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		76337678259934B3001B8D46 /* USBTKit in Frameworks */ = {isa = PBXBuildFile; productRef = 76337677259934B3001B8D46 /* USBTKit */; };
 		763FD4EE25966D7E0078B628 /* USBTKitExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FD4ED25966D7E0078B628 /* USBTKitExampleApp.swift */; };
-		763FD514259671230078B628 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FD513259671230078B628 /* MessageViewModel.swift */; };
+		763FD514259671230078B628 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FD513259671230078B628 /* ChatViewModel.swift */; };
 		7665A899259674D3007C985C /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FD4EF25966D7E0078B628 /* ChatView.swift */; };
+		768D08792756BFFB00AA8949 /* USBTKit in Frameworks */ = {isa = PBXBuildFile; productRef = 768D08782756BFFB00AA8949 /* USBTKit */; };
 		76FE87FE25967EEA00489DB3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FE87FD25967EEA00489DB3 /* Message.swift */; };
 /* End PBXBuildFile section */
 
@@ -19,7 +19,8 @@
 		763FD4ED25966D7E0078B628 /* USBTKitExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USBTKitExampleApp.swift; sourceTree = "<group>"; };
 		763FD4EF25966D7E0078B628 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		763FD4F625966D7E0078B628 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		763FD513259671230078B628 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
+		763FD513259671230078B628 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		768D08762756BE8100AA8949 /* usbtkit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = usbtkit; path = ..; sourceTree = "<group>"; };
 		76FE87FD25967EEA00489DB3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -28,7 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76337678259934B3001B8D46 /* USBTKit in Frameworks */,
+				768D08792756BFFB00AA8949 /* USBTKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,8 +39,10 @@
 		763FD4E125966D7E0078B628 = {
 			isa = PBXGroup;
 			children = (
+				768D08752756BE8100AA8949 /* Packages */,
 				763FD4EC25966D7E0078B628 /* USBTKitExample */,
 				763FD4EB25966D7E0078B628 /* Products */,
+				768D08772756BFFB00AA8949 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,11 +59,26 @@
 			children = (
 				763FD4ED25966D7E0078B628 /* USBTKitExampleApp.swift */,
 				763FD4EF25966D7E0078B628 /* ChatView.swift */,
-				763FD513259671230078B628 /* MessageViewModel.swift */,
+				763FD513259671230078B628 /* ChatViewModel.swift */,
 				763FD4F625966D7E0078B628 /* Info.plist */,
 				76FE87FD25967EEA00489DB3 /* Message.swift */,
 			);
 			path = USBTKitExample;
+			sourceTree = "<group>";
+		};
+		768D08752756BE8100AA8949 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				768D08762756BE8100AA8949 /* usbtkit */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		768D08772756BFFB00AA8949 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -80,7 +98,7 @@
 			);
 			name = USBTKitExample;
 			packageProductDependencies = (
-				76337677259934B3001B8D46 /* USBTKit */,
+				768D08782756BFFB00AA8949 /* USBTKit */,
 			);
 			productName = USBTKitExample;
 			productReference = 763FD4EA25966D7E0078B628 /* USBTKitExample.app */;
@@ -110,7 +128,6 @@
 			);
 			mainGroup = 763FD4E125966D7E0078B628;
 			packageReferences = (
-				76337676259934B3001B8D46 /* XCRemoteSwiftPackageReference "usbtkit" */,
 			);
 			productRefGroup = 763FD4EB25966D7E0078B628 /* Products */;
 			projectDirPath = "";
@@ -138,7 +155,7 @@
 			files = (
 				7665A899259674D3007C985C /* ChatView.swift in Sources */,
 				76FE87FE25967EEA00489DB3 /* Message.swift in Sources */,
-				763FD514259671230078B628 /* MessageViewModel.swift in Sources */,
+				763FD514259671230078B628 /* ChatViewModel.swift in Sources */,
 				763FD4EE25966D7E0078B628 /* USBTKitExampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,21 +356,9 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		76337676259934B3001B8D46 /* XCRemoteSwiftPackageReference "usbtkit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nakkht/usbtkit.git";
-			requirement = {
-				branch = develop;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		76337677259934B3001B8D46 /* USBTKit */ = {
+		768D08782756BFFB00AA8949 /* USBTKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 76337676259934B3001B8D46 /* XCRemoteSwiftPackageReference "usbtkit" */;
 			productName = USBTKit;
 		};
 /* End XCSwiftPackageProductDependency section */

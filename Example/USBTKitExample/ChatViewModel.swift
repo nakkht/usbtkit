@@ -18,7 +18,7 @@ import Foundation
 import USBTKit
 import Combine
 
-class MessageViewModel: ObservableObject {
+class ChatViewModel: ObservableObject {
 
     @Published var messages = [Message]()
 
@@ -28,14 +28,23 @@ class MessageViewModel: ObservableObject {
 
     init() {
         self.channel = USBChannel(id: 666)
-        self.outputStream = self.channel.output.sink(receiveValue: self.handleOutput)
-        self.connection = self.channel.open()
+        self.outputStream = self.channel.output.sink(receiveCompletion: self.handle(completion:), receiveValue: self.handleOutput(_:))
     }
 
-    func send(_ message: String) {
+    func listen() async {
+        guard connection == nil else { return }
+        do {
+           try self.connection = await self.channel.listen()
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+
+    @MainActor
+    func send(_ message: String) async {
         guard !message.isEmpty, let data = message.data(using: .utf8) else { return }
         messages.append(Message(type: .ping, content: message))
-        self.channel.write(data: data)
+        await self.channel.write(data: data)
     }
 
     func handleOutput(_ data: Data) {
@@ -44,6 +53,15 @@ class MessageViewModel: ObservableObject {
             return
         }
         print(response)
+    }
+
+    func handle(completion: Subscribers.Completion<USBTError>) {
+        switch completion {
+        case .finished:
+            print("completion finished")
+        case .failure(let error):
+            print(error.description)
+        }
     }
 
     deinit {

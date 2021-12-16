@@ -19,11 +19,11 @@ import Foundation
 actor OutputStreamActor {
 
     private var outputStream: OutputStream
-    private var outputDelegate: EventDelegate?
+    private var outputDelegate: EventDelegate
 
-    init(_ outputStream: OutputStream) async {
+    init(_ outputStream: OutputStream, _ outputDelegate: EventDelegate) {
         self.outputStream = outputStream
-        self.outputDelegate = EventDelegate(self.output)
+        self.outputDelegate = outputDelegate
         self.outputStream.schedule(in: .current, forMode: .default)
         self.outputStream.delegate = self.outputDelegate
         self.outputStream.open()
@@ -35,9 +35,5 @@ actor OutputStreamActor {
 
     func close() {
         self.outputStream.close()
-    }
-
-    private func output(_ stream: Stream, event: Stream.Event) {
-
     }
 }

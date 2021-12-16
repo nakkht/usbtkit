@@ -23,12 +23,26 @@ public struct USBChannel: Channel {
 
     public let id: UInt
     public let hub = USBHub.shared
-    public let output = PassthroughSubject<Data, Never>()
+    public let output = PassthroughSubject<Data, USBTError>()
 
     let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: USBChannel.bufferSize)
 
     public init(id: UInt) {
         self.id = id
+    }
+
+    public func listen() async throws -> AnyCancellable {
+        let stream = self.hub.input.sink(receiveCompletion: self.output.send, receiveValue: self.received)
+        try await self.hub.connect()
+        return stream
+    }
+
+    public func close() async {
+        await self.hub.disconnect()
+    }
+
+    public func write(data: Data) async {
+        await self.hub.write(data: data)
     }
 
     public func received(_ stream: Stream, _ event: Stream.Event) {

@@ -5,8 +5,8 @@ import PackageDescription
 let package = Package(
     name: "USBTKit",
     platforms: [
-        .macOS(.v11),
-        .iOS(.v15)
+        .macOS(.v10_15),
+        .iOS(.v13)
     ],
     products: [
         .library(name: "USBTKit",

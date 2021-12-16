@@ -23,8 +23,12 @@ final class Socket {
     private var socketHandle: SocketNativeHandle
     private var input: InputStreamActor?
     private var output: OutputStreamActor?
+    private let inputDelegate: EventDelegate
+    private let outputDelegate: EventDelegate
 
-    init() {
+    init(_ inputDelegate: EventDelegate, _ outputDelegate: EventDelegate) {
+        self.inputDelegate = inputDelegate
+        self.outputDelegate = outputDelegate
         self.socketHandle = socket(AF_UNIX, SOCK_STREAM, 0)
         self.configure(socketHandle)
     }
@@ -48,7 +52,7 @@ final class Socket {
     }
 
     func write(data: Data) async {
-        guard let dataBufferPointer = data.withUnsafeBytes({$0.bindMemory(to: UInt8.self) }).baseAddress else { return }
+        guard let dataBufferPointer = data.withUnsafeBytes({ $0.bindMemory(to: UInt8.self) }).baseAddress else { return }
         await self.output?.write(dataBufferPointer, maxLength: data.count)
     }
 
@@ -68,8 +72,8 @@ final class Socket {
         CFWriteStreamSetProperty(outputStream!.takeUnretainedValue(),
                                  CFStreamPropertyKey(rawValue: kCFStreamPropertyShouldCloseNativeSocket),
                                  kCFBooleanTrue)
-        await self.input = InputStreamActor(inputStream!.takeRetainedValue())
-        await self.output = OutputStreamActor(outputStream!.takeRetainedValue())
+        self.input = InputStreamActor(inputStream!.takeRetainedValue(), inputDelegate)
+        self.output = OutputStreamActor(outputStream!.takeRetainedValue(), outputDelegate)
     }
 
     private var address: sockaddr_un {

@@ -20,15 +20,19 @@ struct ChatView: View {
 
     @State private var textInput = ""
 
-    @ObservedObject var viewModel: MessageViewModel
+    @ObservedObject var viewModel: ChatViewModel
 
     var body: some View {
         VStack {
-            ScrollView {
-                VStack {
+            ScrollViewReader { scrollProxy in
+                ScrollView {
                     ForEach(viewModel.messages, id: \.self) {
                         MessageView(message: $0)
                             .padding(.horizontal, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                            .id($0.id)
+                    }
+                    .onChange(of: viewModel.messages.count) { _ in
+                        scrollProxy.scrollTo(viewModel.messages.last?.id)
                     }
                 }
             }
@@ -36,8 +40,10 @@ struct ChatView: View {
             HStack {
                 TextField("Enter a message", text: $textInput)
                 Button("Send") {
-                    self.viewModel.send(textInput)
-                    self.textInput = ""
+                    Task {
+                        await self.viewModel.send(textInput)
+                        self.textInput = ""
+                    }
                 }
             }
             .padding(.horizontal)
@@ -75,6 +81,6 @@ struct MessageView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatView(viewModel: MessageViewModel())
+        ChatView(viewModel: ChatViewModel())
     }
 }

@@ -21,10 +21,15 @@ public final class USBHub {
 
     static let shared = USBHub()
 
+    public let input: PassthroughSubject<(Stream, Stream.Event), USBTError>
+    public let output: PassthroughSubject<(Stream, Stream.Event), USBTError>
+
     private var socket: Socket?
 
     private init() {
-        self.socket = Socket()
+        self.input = PassthroughSubject<(Stream, Stream.Event), USBTError>()
+        self.output = PassthroughSubject<(Stream, Stream.Event), USBTError>()
+        self.socket = Socket(EventDelegate(self.input), EventDelegate(self.output))
     }
 
     func connect() async throws {
@@ -37,5 +42,13 @@ public final class USBHub {
 
     func disconnect() async {
         await self.socket?.disconnect()
+    }
+
+    private func input(_ stream: Stream, event: Stream.Event) {
+        self.input.send((stream, event))
+    }
+
+    private func output(_ stream: Stream, event: Stream.Event) {
+        self.output.send((stream, event))
     }
 }
